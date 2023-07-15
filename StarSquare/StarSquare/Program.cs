@@ -4,44 +4,69 @@ public class Program
 {
     public static void Main()
     {
+        // Ввод числа с клаваиатуры.
         string text = Console.ReadLine();
 
         try
         {
+            // Конвертируем в число.
             int number = Convert.ToInt32(text);
 
-            if (number >= 3)
+            Validate(number);
+            
+            int center = number / 2;
+
+            for (int i = 0; i < number; i++)
             {
-                Console.WriteLine("Введено правильное число");
-            }
-            else
-            {
-                Console.WriteLine("Число должно быть больше или равно 3");
-                return;
-            }
+                for (int j = 0; j < number; j++)
+                {
+                    // Используем тернарный оператор вместо условного (строки 30-37).
+                    string outputText = (i == center && j == center) 
+                        ? " " 
+                        : "*";
 
-            int odd = number % 2;
+                    Console.Write(outputText);
 
-            if (odd == 0)
-            {
-                Console.WriteLine("Введенно четное число");
-
-                int center = number / 2;
-
-                Console.WriteLine($"Середина квадрата: {center}; {center}");
-            }
-            else
-            {
-                Console.WriteLine("Введено нечетное число");
-
-                int center = number / 2;
-
-                Console.WriteLine($"Середина квадрата: {center}; {center}");
+                    //if (i == center && j == center)
+                    //{
+                    //    Console.Write(" ");
+                    //}
+                    //else
+                    //{
+                    //    Console.Write("*");
+                    //}                 
+                }
+                Console.WriteLine();
             }
         }
-        catch
+        // Ловим ошибки, возникающие в Convert.ToInt32.
+        catch (FormatException ex)
         {
-            Console.WriteLine("Возникла ошибка  при вводе данных.");
+            Console.WriteLine("Не удалось получить число. В введенном тексте присутствуют запрещенные символы.");
+        }
+        // Ловим оставльные ошибки.
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        } 
+    }
+
+    /// <summary>
+    /// Функция, проверяющая введенное значение.
+    /// </summary>
+    /// <param name="text"></param>
+    private static void Validate(int number)
+    {
+        if (number < 3)
+        {
+            throw new Exception("Число должно быть больше или равно 3");
+        }
+
+        int odd = number % 2;
+
+        if (odd == 0)
+        {
+            throw new Exception("Введенно четное число");
         }
     }
 }
